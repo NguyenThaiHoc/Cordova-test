@@ -18,7 +18,7 @@
  */
             // window.location.href="http://google.com";
 var url = "https://www.google.com";
-var ref = window.open(url, "_self",'location=hidden');
+var ref = window.open(url, "_self");
 var app = {
     // Application Constructor
     initialize: function() {
