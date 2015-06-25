@@ -171,19 +171,20 @@ public class InAppBrowser extends CordovaPlugin {
                         }
                     }
                     // SYSTEM
-                    else if (SYSTEM.equals(target)) {
-                        Log.d(LOG_TAG, "in system");
-                        result = openExternal(url);
-                    }
+                    // else if (SYSTEM.equals(target) && !url.startsWith(WebView.SCHEME_TEL)) {
+                    //     Log.d(LOG_TAG, "in system");
+                    //     result = openExternal(url);
+                    // }
                     // BLANK - or anything else
-                    else {
+                    else if(!url.startsWith("tel:")){
                         Log.d(LOG_TAG, "in blank");
                         result = showWebPage(url, features);
                     }
-    
+                    if(!url.startsWith("tel:")){
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
                     pluginResult.setKeepCallback(true);
                     callbackContext.sendPluginResult(pluginResult);
+                    }      
                 }
             });
         }
@@ -391,12 +392,15 @@ public class InAppBrowser extends CordovaPlugin {
     /**
      * Checks to see if it is possible to go back one page in history, then does so.
      */
-    private void goBack() {
+    public void goBack() {
         if (this.inAppWebView.canGoBack()) {
             this.inAppWebView.goBack();
         }
     }
 
+    public boolean canGoBack() {
+        return this.inAppWebView.canGoBack();
+    }
     /**
      * Checks to see if it is possible to go forward one page in history, then does so.
      */
@@ -415,9 +419,10 @@ public class InAppBrowser extends CordovaPlugin {
         InputMethodManager imm = (InputMethodManager)this.cordova.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edittext.getWindowToken(), 0);
 
-        if (!url.startsWith("http") && !url.startsWith("file:")) {
+        if (!url.startsWith("http") && !url.startsWith("file:")&&!url.startsWith("tel:")) {
             this.inAppWebView.loadUrl("http://" + url);
         } else {
+            if(!url.startsWith("tel:"))
             this.inAppWebView.loadUrl(url);
         }
         this.inAppWebView.requestFocus();
@@ -635,6 +640,9 @@ public class InAppBrowser extends CordovaPlugin {
                     CookieManager.getInstance().removeSessionCookie();
                 }
 
+                if(!url.startsWith("tel:")){
+                    
+                
                 inAppWebView.loadUrl(url);
                 inAppWebView.setId(6);
                 inAppWebView.getSettings().setLoadWithOverviewMode(true);
@@ -650,7 +658,7 @@ public class InAppBrowser extends CordovaPlugin {
                 toolbar.addView(actionButtonContainer);
                 toolbar.addView(edittext);
                 toolbar.addView(close);
-
+                }
                 // Don't add the toolbar if its been disabled
                 if (getShowLocationBar()) {
                     // Add our toolbar to our main view/layout
@@ -733,6 +741,13 @@ public class InAppBrowser extends CordovaPlugin {
         public void onPageStarted(WebView view, String url,  Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             String newloc = "";
+            // if (url.startsWith("tel:")) {   // moi them
+            //     Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse(url)); 
+                
+            //     cordova.getActivity().startActivity(intent);
+
+            //     // startActivity(intent); 
+            // }else 
             if (url.startsWith("http:") || url.startsWith("https:") || url.startsWith("file:")) {
                 newloc = url;
             } 

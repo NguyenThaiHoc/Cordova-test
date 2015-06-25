@@ -43,12 +43,22 @@ public class InAppBrowserDialog extends Dialog {
     }
 
     public void onBackPressed () {
-        if (this.inAppBrowser == null) {
-            this.dismiss();
-        } else {
-            // better to go through the in inAppBrowser
-            // because it does a clean up
+      if (this.inAppBrowser == null) {
+        this.dismiss();
+      } else {
+        if (this.inAppBrowser.canGoBack()) {
+            this.inAppBrowser.goBack();
+        }  else {
             this.inAppBrowser.closeDialog();
         }
+      }
+
+        // if (this.inAppBrowser == null) {
+        //     this.dismiss();
+        // } else {
+        //     // better to go through the in inAppBrowser
+        //     // because it does a clean up
+        //     this.inAppBrowser.closeDialog();
+        // }
     }
 }

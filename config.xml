@@ -8,7 +8,10 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+    <plugins>
     <plugin name="cordova-plugin-whitelist" version="1" />
+
+    <access origin="tel:*" launch-external="yes"/>
     <access origin="https://www.google.com/"/>
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -16,11 +19,27 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    </plugins>
     <platform name="android">
-        <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+
+
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+
+
+    <plugins>
+    <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser" />
+    </plugins>
+    
+    <feature name="InAppBrowser">
+      <param name="android-package" value="org.apache.cordova.InAppBrowser"/>
+    </feature>
+    <preference name="EnableViewportScale" value="false"/>
+    <preference name="stay-in-webview" value="true" />
 </widget>
