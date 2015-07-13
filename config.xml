@@ -42,4 +42,5 @@
     </feature>
     <preference name="EnableViewportScale" value="false"/>
     <preference name="stay-in-webview" value="true" />
+    
 </widget>

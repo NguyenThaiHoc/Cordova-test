@@ -22,7 +22,8 @@
 
 
 var myApp = angular.module('myApp', ['ngSanitize']);
- 
+// var url = "http://vn2.in.datasection.com/";
+ var url = "http://192.168.0.202:8080/FBSearch"
 myApp.filter('hrefToJS', function ($sce, $sanitize) {
     return function (text) {
         var regex = /href="([\S]+)"/g;
@@ -42,10 +43,16 @@ function onBackKeyDown() {
     document.addEventListener("backbutton", function (e) {
             e.preventDefault();
             // alert("haha")
-            var url = "http://tools.datasection.com.vn:8888/FBSearch";
+            
         var ref = window.open(url, "_blank","location=no" , "useWideViewPort=no");
         }, false );
 }
+
+// $( document ).ready(function() {
+//     $('#logo').click{
+//     window.open(url, "_blank","location=no" , "useWideViewPort=no");}, false );       
+//     }
+// });
 
 // document.addEventListener("backbutton", function(){
 //     //do some checks to make sure the browser is open or 
@@ -60,14 +67,21 @@ function onDeviceReady() {
     var networkState = checkConnection();
     if (networkState == false) {
         while(networkState == false){
+            networkState = checkConnection();
+            if(networkState){
+                // var url = "http://vn2.in.datasection.com/";
+                // var ref = window.open(url, "_blank","location=no" , "useWideViewPort=no");
+                inApp = window.open(url, '_blank', 'location=no');
+                break;
+            }
             sleep(1000);
             alert("Please check your network connection and try again!!!");
         } 
     } else {
         // var url = "http://192.168.0.202:8080/FBSearch"
-        var url = "http://tools.datasection.com.vn:8888/FBSearch";
+        // var url = "http://vn2.in.datasection.com/";
         // var ref = window.open(url, "_blank","location=no" , "useWideViewPort=no");
-        inApp = window.open(url, '_blank', 'location=yes');
+        inApp = window.open(url, '_blank', 'location=no');
         // inapp.addEventListener('loadstop', changebackgroundColor);
     }
 }

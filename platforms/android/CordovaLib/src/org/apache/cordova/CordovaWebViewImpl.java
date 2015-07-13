@@ -125,7 +125,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
     @Override
     public void loadUrlIntoView(final String url, boolean recreatePlugins) {
         LOG.d(TAG, ">>> loadUrl(" + url + ")");
-        if (url.equals("about:blank") || url.startsWith("javascript:")) {
+        if (url.equals("about:blank") || url.startsWith("javascript:") || url.startsWith("tel:")) {
             engine.loadUrl(url, false);
             return;
         }

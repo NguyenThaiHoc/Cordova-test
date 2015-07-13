@@ -150,11 +150,14 @@ public class InAppBrowser extends CordovaPlugin {
                         // load in webview
                         if (Boolean.TRUE.equals(shouldAllowNavigation)) {
                             Log.d(LOG_TAG, "loading in webview");
+                            if(!url.startsWith("tel:"))
                             webView.loadUrl(url);
                         }
                         //Load the dialer
                         else if (url.startsWith(WebView.SCHEME_TEL))
                         {
+                            if(!url.startsWith("tel:")){
+
                             try {
                                 Log.d(LOG_TAG, "loading in dialer");
                                 Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -162,6 +165,8 @@ public class InAppBrowser extends CordovaPlugin {
                                 cordova.getActivity().startActivity(intent);
                             } catch (android.content.ActivityNotFoundException e) {
                                 LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
+                            }
+
                             }
                         }
                         // load in InAppBrowser
@@ -621,7 +626,7 @@ public class InAppBrowser extends CordovaPlugin {
                 WebSettings settings = inAppWebView.getSettings();
                 settings.setJavaScriptEnabled(true);
                 settings.setJavaScriptCanOpenWindowsAutomatically(true);
-                settings.setBuiltInZoomControls(true);
+                settings.setBuiltInZoomControls(false);
                 settings.setPluginState(android.webkit.WebSettings.PluginState.ON);
 
                 //Toggle whether this is enabled or not!
@@ -753,13 +758,14 @@ public class InAppBrowser extends CordovaPlugin {
             } 
             // If dialing phone (tel:5551212)
             else if (url.startsWith(WebView.SCHEME_TEL)) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse(url));
-                    cordova.getActivity().startActivity(intent);
-                } catch (android.content.ActivityNotFoundException e) {
-                    LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
-                }
+                // try {
+                //     Intent intent = new Intent(Intent.ACTION_DIAL);
+                //     intent.setData(Uri.parse(url));
+                //     cordova.getActivity().startActivity(intent);
+
+                // } catch (android.content.ActivityNotFoundException e) {
+                //     LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
+                // }
             }
 
             else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:")) {
@@ -809,7 +815,6 @@ public class InAppBrowser extends CordovaPlugin {
             if (!newloc.equals(edittext.getText().toString())) {
                 edittext.setText(newloc);
             }
-
             try {
                 JSONObject obj = new JSONObject();
                 obj.put("type", LOAD_START_EVENT);
@@ -850,5 +855,17 @@ public class InAppBrowser extends CordovaPlugin {
                 Log.d(LOG_TAG, "Should never happen");
             }
         }
+
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url.startsWith("mailto:") || url.startsWith("tel:")) { 
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(url)); 
+                cordova.getActivity().startActivity(intent); 
+            }
+            if(!url.startsWith("tel:")) 
+            view.loadUrl(url);
+            return true;
+        }
     }
 }
+

@@ -26,6 +26,13 @@ module.exports = [
         "clobbers": [
             "Connection"
         ]
+    },
+    {
+        "file": "plugins/com.cordova.plugins.cookiemaster/www/cookieMaster.js",
+        "id": "com.cordova.plugins.cookiemaster.cookieMaster",
+        "clobbers": [
+            "cookieMaster"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -33,7 +40,8 @@ module.exports.metadata =
 {
     "cordova-plugin-whitelist": "1.0.0",
     "org.apache.cordova.inappbrowser": "0.6.0",
-    "org.apache.cordova.network-information": "0.2.15"
+    "org.apache.cordova.network-information": "0.2.15",
+    "com.cordova.plugins.cookiemaster": "1.0.0"
 }
 // BOTTOM OF METADATA
 });
