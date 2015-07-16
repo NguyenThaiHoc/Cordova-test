@@ -23,7 +23,7 @@
 
 var myApp = angular.module('myApp', ['ngSanitize']);
 // var url = "http://vn2.in.datasection.com/";
- var url = "http://192.168.0.202:8080/FBSearch"
+var url = "http://192.168.0.202:8080/FBSearch"
 myApp.filter('hrefToJS', function ($sce, $sanitize) {
     return function (text) {
         var regex = /href="([\S]+)"/g;
